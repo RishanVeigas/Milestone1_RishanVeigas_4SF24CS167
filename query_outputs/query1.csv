@@ -1,0 +1,3 @@
+patient_id,patient_name,consultation_id,consultation_time,doctor_name,diagnosis_description,medicine_name,dosage,frequency,whenToTake
+1,"Ravi Kumar",1,"2026-04-29 08:39:37","Dr. Vivek Menon","Mild Angina",Aspirin,75mg,"Once daily","After food"
+1,"Ravi Kumar",8,"2026-04-29 08:39:37","Dr. Vivek Menon","Stable Condition",Aspirin,75mg,"Once daily","After food"
