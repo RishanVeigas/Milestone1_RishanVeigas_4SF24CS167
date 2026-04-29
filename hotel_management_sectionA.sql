@@ -315,6 +315,8 @@ VALUES (9, 'completed'),
     (14, 'pending'),
     (15, 'completed'),
     (16, 'failed');
+
+    
 SELECT p.patient_id,
     p.name AS patient_name,
     c.consultation_id,

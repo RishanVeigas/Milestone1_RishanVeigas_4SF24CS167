@@ -65,3 +65,46 @@ WHERE pay.payment_status = 'pending'
 GROUP BY p.patient_id, p.name
 HAVING total_outstanding > 0;
 
+
+
+-- 4. transaction query
+
+START TRANSACTION;
+
+-- 1. Insert consultation
+INSERT INTO consultations (appointment_id, doctor_id, notes)
+VALUES (1, 1, 'Routine consultation - transaction test');
+
+-- Capture generated consultation_id
+SET @consultation_id = LAST_INSERT_ID();
+
+-- 2. Insert diagnosis
+INSERT INTO diagnoses (diagnosis_description, consultation_id)
+VALUES ('Test Diagnosis - Stable', @consultation_id);
+
+-- 3. Create prescription record
+INSERT INTO prescription_details (consultation_id)
+VALUES (@consultation_id);
+
+SET @prescription_id = LAST_INSERT_ID();
+
+-- 4. Insert treatments (medicines prescribed)
+INSERT INTO treatments (prescription_id, medicine_id, dosage, frequency, whenToTake)
+VALUES 
+(@prescription_id, 1, '500mg', 'Twice daily', 'After food'),
+(@prescription_id, 2, '200mg', 'Once daily', 'After food');
+
+-- 5. Generate bill
+INSERT INTO bills (bill_amount, consultation_id)
+VALUES (500.00, @consultation_id);
+
+SET @bill_id = LAST_INSERT_ID();
+
+-- 6. Record payment
+INSERT INTO payments (bill_id, payment_status)
+VALUES (@bill_id, 'pending');
+
+-- If everything is successful
+COMMIT;
+
+select *  from treatments;
